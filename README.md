@@ -39,11 +39,7 @@ This Spring Boot application is designed to manage a food delivery system simila
 - Logging: Utilizes a logging framework to record important events during application execution.
 - Swagger Documentation: API documentation with Swagger, including endpoint details and input/output models.
 
-### Frontend Requirements
-- Basic frontend interface for user interaction using HTML, CSS, and JavaScript.
-- User-friendly Sign In/Sign Up page for user registration and authentication.
-- Forms for adding new Restaurants, Customers, and Delivery Partners, placing orders, and updating order status.
-- Page to display a customer's order history.
+
 
 ### Exception Handling and Data Validation
 - Custom exception classes for handling specific validation and exception cases.
