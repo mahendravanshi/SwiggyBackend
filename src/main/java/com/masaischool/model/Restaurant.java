@@ -42,13 +42,13 @@ public class Restaurant {
     @Valid
 	private Address address;
 	
-	@JsonIgnore
 	@OneToMany(mappedBy="restaurant",fetch=FetchType.EAGER)
+	@JsonIgnore
 	private List<Order> orders;
     
 	
-	@JsonIgnore
 	@OneToMany(mappedBy="restaurant",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@JsonIgnore
 	private List<Item> items;
 	
 	

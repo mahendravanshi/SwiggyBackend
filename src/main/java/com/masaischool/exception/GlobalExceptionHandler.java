@@ -29,6 +29,17 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(ed, HttpStatus.BAD_REQUEST);
     }
+	
+	
+	@ExceptionHandler(LoginException.class)
+    public ResponseEntity<ErrorDetails> loginExcetion(LoginException nhf, WebRequest wr) {
+        log.error("Customer not found exception", nhf);
+        
+        ErrorDetails ed = ErrorDetails.builder().message(nhf.getMessage()).timeStamp(LocalDateTime.now())
+                .uri(wr.getDescription(false)).build();
+
+        return new ResponseEntity<>(ed, HttpStatus.BAD_REQUEST);
+    }
     
 
     @ExceptionHandler(DeliveryPartenerNoFoundException.class)

@@ -2,7 +2,6 @@ package com.masaischool.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -11,7 +10,6 @@ import com.masaischool.enums.OrderStatus;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -20,6 +18,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -56,8 +57,12 @@ public class Order {
 	@Column(name="order_date",updatable = false)
 	private LocalDateTime orderDate;
 	
+	@ManyToMany(fetch=FetchType.EAGER,cascade = CascadeType.ALL)
+	@JoinTable(name="order_item",
+	joinColumns  = @JoinColumn(name="order-id"),
+	inverseJoinColumns = @JoinColumn(name="item_id")
+	)
 	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
 	private List<Item> items;
 	
 	

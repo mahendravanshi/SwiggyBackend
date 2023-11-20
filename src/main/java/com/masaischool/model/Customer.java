@@ -3,6 +3,8 @@ package com.masaischool.model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -14,7 +16,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -34,7 +35,6 @@ public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="customer_id",nullable=false)
-//	@Min(value=1L,message="id should be greater than 0")
 	private Integer customerId;
 	
 	
@@ -46,6 +46,16 @@ public class Customer {
 	@Column(name="email",nullable=false,unique=true)
 	@Pattern(regexp="^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+\\.[a-zA-Z]{2,}$",message="Email not valid")
 	private String email;
+	
+	
+	@NotBlank
+	@Column(nullable=false,unique=true)
+	private String username;
+	
+	@NotBlank
+	@Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*=])")
+	@JsonProperty(access=Access.WRITE_ONLY)
+	private String password;
 	
 	
 	@Embedded

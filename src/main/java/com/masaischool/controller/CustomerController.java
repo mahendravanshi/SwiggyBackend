@@ -26,16 +26,13 @@ public class CustomerController {
 	
 	@PostMapping("customers")
 	
-	public ResponseEntity<List<Customer>> addCustomer(@Valid @RequestBody List<Customer> c){
+	public ResponseEntity<Customer> addCustomer(@Valid @RequestBody Customer c){
 		
-		   
-		for(Customer customer : c) {
-			
-			customerService.addCustomer(customer);
-		}
-		
-		return new ResponseEntity<>(c,HttpStatus.CREATED);
+		return new ResponseEntity<>(customerService.addCustomer(c),HttpStatus.CREATED);
 	}
+	
+	
+	
 	
 	
 	

@@ -116,7 +116,6 @@ public class OrderServiceImpl implements OrderService {
 		Customer customer = customerRepository.findById(customerId).orElseThrow(()->new CustomerNotFoundException("Customer not found with customer id "+customerId));
 		Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(()->new RestaurantNotFoundException("resuturant not found with customer id "+restaurantId));
 		
-//		UUID uid = UUID.randomUUID(); 
 		Order order = new Order();
 		order.setCustomer(customer);
 		order.setRestaurant(restaurant);
@@ -130,8 +129,10 @@ public class OrderServiceImpl implements OrderService {
 			
 			Item item = itemRepository.findById(itemId).orElseThrow(()->new NoItemFoundException("No item found with item id "+itemId+" to add in order .Please place fresh order"));
 		    item.setRestaurant(restaurant);
-		    item.setOrder(order);
-			items.add(item);
+		    order.getItems().add(item);
+		    item.getOrders().add(order);
+            
+		    items.add(item);
 			
 		}
 		
@@ -145,23 +146,13 @@ public class OrderServiceImpl implements OrderService {
 		
 		Customer customer2 = 	customerRepository.save(customer);  // order ->(items) will be automatically saved
 		
-		Order bigO = customer2.getOrders().stream().reduce(null, (a,o)->{ 
-			if(a==null) {
-				a = o;
-			}
-			else {
-				a=a.getOrderId()>o.getOrderId()?a:o;
-			}
-			
-			return a;
-		});
+		
 		
 		System.out.println("customer2  "+customer2.getOrders());
 		
-		System.out.println("bigO id "+bigO.getOrderId());
 		
 		restaurant.setItems(items);
-		restaurant.getOrders().add(bigO);  //restaurant all set
+		restaurant.getOrders().add(order);  //restaurant all set
 		
 		restaurantRepository.save(restaurant);
 		   //order and items will be automatically saved due to cascadeType.ALL
@@ -171,15 +162,7 @@ public class OrderServiceImpl implements OrderService {
 		
 	}
 
-
-//	@Override
-//	public List<Order> fetchCustomersOrdersHistorySortedAndPaginated(Integer customerId) {
-//		Customer customer = customerRepository.findById(customerId).orElseThrow(()->new CustomerNotFoundException("Customer not found with customer id "+customerId));
-//
-//		return orderRepository.fetchCustomersOrdersHistorySortedAndPaginated(customerId);
-////		return null;
-//	}
-
+     
 
 	@Override
 	public List<Order> fetchCustomersOrdersHistorySortedAndPaginated(Integer customerId, String fieldOne, String dirOne,
